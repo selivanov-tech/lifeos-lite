@@ -1,4 +1,4 @@
-﻿# LifeOS Lite — установка профиля ассистента в Hermes (Windows)
+﻿# LifeOS Lite — установка в Hermes для Windows без Python (на остальных системах и при наличии Python: install.py)
 # Запуск: двойной клик по install.cmd или
 #   powershell -ExecutionPolicy Bypass -File install.ps1
 param(

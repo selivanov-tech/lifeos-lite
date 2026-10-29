@@ -6,22 +6,25 @@
 
 - `profile/` — ассистент: его правила (`SOUL.md`) и четыре навыка: знакомство, недельный обзор, тренировки, дневник.
 - `vault/LifeOS/` — пустой шаблон папки заметок.
-- `install.cmd` и `install.ps1` — установка на Windows.
+- `install.py` — установщик для macOS, Linux и Windows (нужен только Python 3.8+).
+- `install.cmd` и `install.ps1` — запасной вариант для Windows, если Python не установлен.
 
-## Установка (Windows, Hermes уже стоит и настроен)
+## Установка (Hermes уже стоит и настроен)
 
-1. Распакуй архив в любую папку.
-2. Дважды кликни `install.cmd`.
-   Если Windows спросит про запуск неизвестного файла — «Подробнее» → «Выполнить в любом случае».
+1. Скачай или склонируй репозиторий в любую папку.
+2. Запусти установщик:
+   - macOS и Linux: `python3 install.py`
+   - Windows: `py install.py` (или дважды кликни `install.cmd` — он сам выберет Python или PowerShell; если Windows спросит про неизвестный файл — «Подробнее» → «Выполнить в любом случае»).
 3. Скрипт:
    - создаст в Hermes новый профиль `lifeos` — модель и ключи возьмёт из твоего текущего профиля, твой текущий профиль не меняется;
-   - положит заметки в `Документы\LifeOS` (если такая папка уже есть — не тронет);
+   - положит заметки в `~/Documents/LifeOS` (на Windows это `Документы\LifeOS`; если папки `Documents` нет — в `~/LifeOS`; если папка уже есть — не тронет);
    - поставит ассистенту правила и навыки, память начнёт с чистого листа.
 
-Другое имя профиля или папки:
+Другое имя профиля или папки, и проверка без изменений:
 
 ```
-powershell -ExecutionPolicy Bypass -File install.ps1 -ProfileName myos -VaultPath "D:\Notes\LifeOS"
+python3 install.py --profile myos --vault ~/Notes/LifeOS
+python3 install.py --dry-run
 ```
 
 ## Первый запуск
@@ -36,7 +39,7 @@ powershell -ExecutionPolicy Bypass -File install.ps1 -ProfileName myos -VaultPat
 
 ## Obsidian (по желанию)
 
-Скачай Obsidian → «Open folder as vault» → выбери `Документы\LifeOS`. Ассистент и Obsidian работают с одними и теми же файлами.
+Скачай Obsidian → «Open folder as vault» → выбери папку заметок (по умолчанию `~/Documents/LifeOS`). Ассистент и Obsidian работают с одними и теми же файлами.
 
 ## Что ассистент делает сам, а что спрашивает
 
@@ -46,15 +49,15 @@ powershell -ExecutionPolicy Bypass -File install.ps1 -ProfileName myos -VaultPat
 
 ## Если что-то пошло не так
 
-- «hermes не найден» — открой новое окно PowerShell; проверь, что `hermes --version` работает.
-- «профиль уже есть» — запусти с другим именем (`-ProfileName lifeos2`) или удали старый: `hermes profile delete lifeos`.
+- «hermes не найден» — открой новое окно терминала; проверь, что `hermes --version` работает.
+- «профиль уже есть» — запусти с другим именем (`--profile lifeos2`) или удали старый: `hermes profile delete lifeos`.
 - Ассистент не видит заметки — проверь путь в начале файла `SOUL.md` профиля (команда `hermes profile show lifeos` покажет, где он лежит).
 
 ## Ручная установка (если скрипт не сработал)
 
 1. `hermes profile create lifeos --clone`
 2. `hermes profile show lifeos` — смотри строку `Path:`.
-3. Скопируй `vault\LifeOS` в `Документы\LifeOS`.
-4. Скопируй `profile\SOUL.md` в папку профиля и замени в нём `{{VAULT}}` на путь к заметкам.
-5. Скопируй `profile\skills\lifeos` в `<папка профиля>\skills\lifeos`.
-6. Очисти `<папка профиля>\memories\MEMORY.md` и `USER.md`.
+3. Скопируй `vault/LifeOS` в папку заметок, например `~/Documents/LifeOS`.
+4. Скопируй `profile/SOUL.md` в папку профиля и замени в нём `{{VAULT}}` на путь к заметкам.
+5. Скопируй `profile/skills/lifeos` в `<папка профиля>/skills/lifeos`.
+6. Очисти `<папка профиля>/memories/MEMORY.md` и `USER.md`.
